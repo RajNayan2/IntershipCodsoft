@@ -1,54 +1,30 @@
-let screenValue = "0";
-
-function updateScreen() {
-    const screen = document.getElementById("output");
-    screen.innerText = screenValue;
+function clearDisplay() {
+    document.getElementById('display').innerText = '0';
 }
 
-function appendToScreen(value) {
-    if (screenValue === "0") {
-        screenValue = value;
+function deleteLast() {
+    let display = document.getElementById('display').innerText;
+    if (display.length > 1) {
+        document.getElementById('display').innerText = display.slice(0, -1);
     } else {
-        screenValue += value;
+        document.getElementById('display').innerText = '0';
     }
-    updateScreen();
 }
 
-function clearScreen() {
-    screenValue = "0";
-    updateScreen();
+function appendCharacter(character) {
+    let display = document.getElementById('display').innerText;
+    if (display === '0') {
+        document.getElementById('display').innerText = character;
+    } else {
+        document.getElementById('display').innerText += character;
+    }
 }
 
-function evaluateExpression() {
+function calculateResult() {
+    let display = document.getElementById('display').innerText;
     try {
-        screenValue = eval(screenValue).toString();
-    } catch (error) {
-        screenValue = "Error";
-    }
-    updateScreen();
-}
-
-function deleteLastCharacter() {
-    if (screenValue.length === 1) {
-        screenValue = "0";
-    } else {
-        screenValue = screenValue.slice(0, -1);
-    }
-    updateScreen();
-}
-updateScreen();
-function handleKeyPress(event) {
-    const key = event.key;
-
-    if (!isNaN(key) || key === "." || key === "+" || key === "-" || key === "*" || key === "/") {
-        appendToScreen(key);
-    } else if (key === "Enter") {
-        evaluateExpression();
-    } else if (key === "Delete" || key === "Backspace") {
-        deleteLastCharacter();
-    } else if (key === "Escape") {
-        clearScreen();
+        document.getElementById('display').innerText = eval(display);
+    } catch {
+        document.getElementById('display').innerText = 'Error';
     }
 }
-
-document.addEventListener("keydown", handleKeyPress);
